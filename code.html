@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuantumShield - Quantum Computing & Cybersecurity</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+            background: #0a0a23;
+        }
+
+        /* QUANTUM PARTICLE BACKGROUND - NEW! */
+        #quantum-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            background: radial-gradient(circle, #00d4ff, transparent);
+            border-radius: 50%;
+            animation: quantumFloat 20s infinite linear;
+        }
+
+        @keyframes quantumFloat {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100px) scale(1); opacity: 0; }
+        }
+
+        /* Header */
+        header {
+            background: rgba(10,10,35,0.95);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,212,255,0.3);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #00d4ff, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: linear-gradient(45deg, #00d4ff, #ff6b6b);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: #00d4ff;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, #00d4ff, #ff6b6b, #ffd93d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 20px #00d4ff); }
+            to { filter: drop-shadow(0 0 30px #ff6b6b); }
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.95;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-button {
+            padding: 1.2rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.4s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .cta-primary {
+            background: linear-gradient(45deg, #00d4ff, #0099cc);
+            color: white;
+        }
+
+        .cta-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid #00d4ff;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        /* Sections */
+        section {
+            padding: 6rem 0;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-left: 2rem;
+            padding-right: 2rem;
+        }
+
+        h2 {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 4rem;
+            background: linear-gradient(45deg, #00d4ff, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* NEW! Threat Simulator */
+        .threat-simulator {
+            background: linear-gradient(135deg, #1a1a3e 0%, #2a2a5e 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .simulator-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .sim-control {
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .sim-button {
+            background: linear-gradient(45deg, #ff6b6b, #ff4757);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin: 0 1rem;
+            transition: all 0.3s;
+        }
+
+        .sim-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(255,107,107,0.4);
+        }
+
+        .threat-status {
+            font-size: 2rem;
+            margin: 2rem 0;
+            min-height: 60px;
+        }
+
+        .threat-detected {
+            color: #ff6b6b;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Features */
+        .features {
+            background: rgba(248,249,255,0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 3rem 2.5rem;
+            border-radius: 25px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            transition: all 0.4s;
+            border-top: 5px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #00d4ff, #ff6b6b, #ffd93d);
+            transform: scaleX(0);
+            transition: transform 0.4s;
+        }
+
+        .feature-card:nth-child(1)::before { background: linear-gradient(90deg, #00d4ff, #0099cc); }
+        .feature-card:nth-child(2)::before { background: linear-gradient(90deg, #ff6b6b, #ff4757); }
+        .feature-card:nth-child(3)::before { background: linear-gradient(90deg, #ffd93d, #ffaa00); }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-15px) rotateX(5deg);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.2);
+        }
+
+        .feature-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, #00d4ff, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* NEW! Testimonials */
+        .testimonials {
+            background: linear-gradient(135deg, #0a0a23 0%, #1a1a3e 100%);
+            color: white;
+        }
+
+        .testimonial-carousel {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            border-radius: 25px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+        }
+
+        .testimonial-slide {
+            padding: 3rem;
+            text-align: center;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.6s ease;
+        }
+
+        .testimonial-slide.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .testimonial-slide img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0,212,255,0.5);
+        }
+
+        .testimonial-text {
+            font-size: 1.3rem;
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+
+        .testimonial-author {
+            font-weight: bold;
+            color: #00d4ff;
+        }
+
+        .carousel-nav {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .carousel-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .carousel-dot.active {
+            background: #00d4ff;
+            transform: scale(1.3);
+        }
+
+        /* NEW! Newsletter */
+        .newsletter {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff4757 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .newsletter-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .newsletter-form {
+            display: flex;
+            max-width: 400px;
+            margin: 2rem auto 0;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            min-width: 250px;
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            outline: none;
+        }
+
+        .newsletter-button {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+
+        .newsletter-button:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.05);
+        }
+
+        /* Stats - Enhanced with Counter */
+        .stats {
+            background: linear-gradient(135deg, #0a0a23 0%, #1a1a3e 100%);
+            color: white;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2.5rem;
+            text-align: center;
+        }
+
+        .stat {
+            padding: 2.5rem;
+            position: relative;
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #00d4ff, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 1.2rem;
+            margin-top: 0.5rem;
+            opacity: 0.9;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hamburger { display: flex; }
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(10,10,35,0.98);
+                flex-direction: column;
+                padding: 2rem;
+            }
+            .nav-links.active { display: flex; }
+            
+            .hero h1 { font-size: 2.8rem; }
+            .cta-buttons { flex-direction: column; align-items: center; }
+            .newsletter-form { flex-direction: column; align-items: center; }
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- QUANTUM PARTICLE BACKGROUND - NEW! -->
+    <canvas id="quantum-particles"></canvas>
+
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">QuantumShield</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#demo">Demo</a></li>
+                <li><a href="#features">Solutions</a></li>
+                <li><a href="#testimonials">Reviews</a></li>
+                <li><a href="#newsletter">Newsletter</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span><span></span><span></span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero fade-in">
+        <div class="hero-content">
+            <h1>Quantum Computing<br>Meets Cybersecurity</h1>
+            <p>Experience the future of unbreakable security with quantum-resistant encryption and real-time threat detection.</p>
+            <div class="cta-buttons">
+                <a href="#demo" class="cta-button cta-primary">Live Demo</a>
+                <a href="#features" class="cta-button cta-secondary">Our Solutions</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW! Threat Simulator -->
+    <section id="demo" class="threat-simulator fade-in">
+        <div class="simulator-container">
+            <h2>🛡️ Quantum Threat Simulator</h2>
+            <div class="sim-control">
+                <p style="margin-bottom: 1.5rem; font-size: 1.2rem;">
+                    Simulate a quantum cyber attack - Watch our system detect it instantly!
+                </p>
+                <button class="sim-button" onclick="simulateAttack()">
+                    <i class="fas fa-bolt"></i> Launch Quantum Attack
+                </button>
+                <button class="sim-button" onclick="resetSimulator()" style="background: linear-gradient(45deg, #00d4ff, #0099cc);">
+                    🔄 Reset
+                </button>
+            </div>
+            <div id="threatStatus" class="threat-status">
+                System Secure ✅
+            </div>
+            <div style="font-size: 1.1rem; opacity: 0.8;">
+                Detection Time: <span id="detectionTime">0ms</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats fade-in">
+        <h2>The Quantum Advantage</h2>
+        <div class="stats-grid">
+            <div class="stat">
+                <span class="stat-number" data-target="1000000">
+    <section id="demo" class="threat-simulator fade-in">
+        <h2>🛡️ Live Quantum Threat Demo</h2>
+        <div class="simulator-container">
+            <button class="sim-button" onclick="simulateAttack()">🚨 Launch Attack</button>
+            <div id="threatStatus" class="threat-status">System Secure ✅</div>
+        </div>
+    </section>
+
+    <!-- NEW! Testimonials - ADD AFTER STATS SECTION -->
+    <section id="testimonials" class="testimonials fade-in">
+        <h2>What Industry Leaders Say</h2>
+        <div class="testimonial-carousel">
+            <div class="testimonial-slide active">
+                <img src="https://via.placeholder.com/80?text=CEO" alt="CEO">
+                <p class="testimonial-text">"QuantumShield saved us from a nation-state attack. Unbreakable!"</p>
+                <div class="testimonial-author">- John Doe, CEO BankCorp</div>
+            </div>
+            <!-- Add more testimonials -->
+        </div>
+    </section>
+
+    <!-- NEW! Newsletter - ADD BEFORE FOOTER -->
+    <section id="newsletter" class="newsletter fade-in">
+        <h2>Stay Quantum Secure</h2>
+        <p>Get weekly quantum cybersecurity updates</p>
+        <form class="newsletter-form">
+            <input type="email" class="newsletter-input" placeholder="your@email.com" required>
+            <button type="submit" class="newsletter-button">Subscribe</button>
+        </form>
+    </section>
+
+    <!-- ADD THIS SCRIPT BEFORE </body> -->
+    <script>
+        // NEW! Threat Simulator
+        function simulateAttack() {
+            document.getElementById('threatStatus').innerHTML = '🛑 THREAT DETECTED! Neutralized in 12ms';
+            document.getElementById('threatStatus').className = 'threat-status threat-detected';
+            setTimeout(() => {
+                document.getElementById('threatStatus').innerHTML = 'System Secure ✅';
+                document.getElementById('threatStatus').className = 'threat-status';
+            }, 3000);
+        }
+
+        // NEW! Animated Stats Counter
+        function animateCounters() {
+            const counters = document.querySelectorAll('.stat-number');
+            counters.forEach(counter => {
+                const target = counter.getAttribute('data-target');
+                const increment = target / 100;
+                let current = 0;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        counter.textContent = formatNumber(target);
+                        clearInterval(timer);
+                    } else {
+                        counter.textContent = formatNumber(current);
+                    }
+                }, 20);
+            });
+        }
+
+        function formatNumber(num) {
+            return num.toLocaleString();
+        }
+
+        // Trigger counters on scroll
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 1000) animateCounters();
+        });
+    </script>
+
+    <!-- ADD THESE CSS STYLES TO YOUR <style> SECTION -->
+    <style>
+        /* NEW! Threat Simulator Styles */
+        .threat-simulator { background: linear-gradient(135deg, #1a1a3e, #2a2a5e); color: white; text-align: center; }
+        .sim-button { 
+            background: linear-gradient(45deg, #ff6b6b, #ff4757); 
+            color: white; border: none; padding: 1rem 2rem; 
+            border-radius: 50px; font-size: 1.2rem; cursor: pointer; 
+            margin: 1rem; transition: all 0.3s; 
+        }
+        .sim-button:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(255,107,107,0.4); }
+        .threat-status { font-size: 2rem; margin: 2rem 0; min-height: 60px; }
+        .threat-detected { color: #ff6b6b; animation: pulse 1s infinite; }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+
+        /* NEW! Newsletter Styles */
+        .newsletter { background: linear-gradient(135deg, #ff6b6b, #ff4757); color: white; text-align: center; }
+        .newsletter-form { display: flex; max-width: 400px; margin: 2rem auto; gap: 1rem; }
+        .newsletter-input { flex: 1; padding: 1rem 1.5rem; border: none; border-radius: 50px; }
+        .newsletter-button { background: rgba(255,255,255,0.2); color: white; border: none; padding: 1rem 2rem; border-radius: 50px; cursor: pointer; }
+    </style>
+</body>
+</html>
